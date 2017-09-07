@@ -174,7 +174,157 @@ int main() {
 		if (outer < 10)
 			goto Again;
 	}
+
+	enum RANK {
+		eSoldier,
+		eSergeant,
+		eCorporal,
+		eLieutenant,
+		eCaptain = 6,
+		eMajor,
+		eColonel = eMajor + 3,
+		eGeneral = 20
+	};
 	//Заметим, что несмотря на многократное объявление, nStat сохраняет свое значение. Это происходит, посколько статические переменные сохраняются до конца программы.
+
+	typedef RANK RANG;
+
+	RANG r = eSoldier;
+	if (r == eSoldier) r = eSergeant;
+
+	if (r == eSergeant) {
+		i = r;
+		r = RANK(i++);
+		cout << ((r == eSergeant) ? "Still sergeant\n" : "Corporal now/n");
+		i = r;
+		r = RANK(++i);
+		cout << ((r == eSergeant) ? "Still sergeant\n" : "Corporal now/n");
+		i = r;
+	}
+	RANK rr = eColonel;
+	stop;
+
+	{
+		n = 127;
+		bool b = n != 0;
+		b = n == 0;
+		b = n > 0;
+		b = n <= 0;
+		b = n > 1;
+
+		int num = static_cast<int>(b);
+		if (b) cout << "\n\t My flag is: true" << "   or: " << b << "\n\t Conversion to int: " << num;
+		b = n == num;
+		cout << "\n\t Now the flag is false" << "   or: " << b << endl;
+	}
+
+	const double pi = acos(-1.);
+	double space_permiability = 4.e-7 * pi;
+	const int dozen = 12;
+	cout << "pi = " << pi << ", space_permiability = " << space_permiability << ", and dozen is " << dozen << endl;
+	int var = dozen;
+	//dozen = 1;
+	var = 1;
+
+#define _MSVER400
+	//#define _MSVER311
+	char *version;
+#if defined _MSVER400
+	version = "version 4.00";
+#elif defined _MSVER311
+	version = "version 3.11";
+#else
+	version = "version Unknown";
+#endif
+	cout << version << endl;
+	stop;
+
+#if defined _DEBUG
+	cout << "Debug mode: on" << endl;
+#elif defined NDEBUG
+	cout << "Debug mode: off" << endl;
+#endif
+
+	{
+		cout << "\n\nGradually eat out all the units:\n\n";
+		us = 0xff;
+		while (us) {
+			cout << hex << us << endl;
+			us &= us - 1;
+		}
+		cout << hex << us << "\nDone\n";
+
+		cout << "\n\nShow even-odd:\n\n";
+		for (int i = 0; i < 10; i++) {
+			if (i & 1)
+				cout << i << " - odd\n";
+			else
+				cout << i << " - even\n";
+		}
+
+		char c = ' ';
+		do {
+			if (c == 'a')
+				cout << "\nAction is a delegate type in C#";
+			else if (c == 'b')
+				cout << "\nbreak is one of the 'leave' statements in all C-like languages";
+			else if (c == 'c')
+				cout << "\ncontinue is a 'go on' statement in all C-like languages";
+			else if (c == 'd')
+				cout << "\ndo-while is a rarely used loop statement in all C-like languages";
+			else
+				cout << "\nPlease read the rules of this loop";
+			cout << "\n\nEnter chars: a, b, c, d (q to quit):\n\n";
+			cin >> c;
+			if (c == 'q')
+				cout << "\nI am going to leave the loop\n";
+		} while (c != 'q');
+		stop;
+	}
+
+	for (double x = 0.0; x < 4; x += 0.1) {
+		cout << x << " ";
+		if (x < 2.1 || x > 3)
+			cout << 0 << endl;
+		else if (x < 2.5)
+			cout << (x - 2) * 4 << endl;
+		else
+			cout << (3 - x) * 4 << endl;
+	}
+
+	for (double x = 0.0; x < 4; x += 0.1) {
+		cout << x << " " << (x < 2.5 ? (x < 2.1 ? 0 : (x - 2) * 4) : (x > 3 ? 0 : (3 - x) * 4)) << endl;
+	}
+
+	for (int i = 0; i >= 0; i++) {
+		char ch;
+		cin >> ch;
+		switch (ch) {
+		case 'a': 
+			cout << "\"Ok\"" << endl;
+			break;
+		case 'b':
+			cout << "Bell" << endl;
+			break;
+		case 'c':
+			cout << i << endl;
+			break;
+		case 'Esc':
+			cout << "\"to quit use \'q\'\"" << endl;
+			break;
+		case 'q':
+			cout << "\"Bye\"" << endl;
+			i = -2;
+			break;
+		}
+	}
+
+	unsigned short flags = 0xaabb;
+	unsigned short ans = 0;
+	for (int i = 0; i < 16; i++) {
+		if ((flags & (1 << i)) == (1 << i)) ans |= (1 << (15 - i));
+	}
+	cout << hex << ans << endl;
 
 	cout << "Input anything to exit" << endl;
 	string str;
