@@ -20,7 +20,6 @@ int main() {
 	wchar_t cw = L'Ф';
 	size_t ns = sizeof(cw);
 	cout << "cw equals " << cw << " size of wchar is " << ns << endl;
-	//Думал, будет 2 байта. Оказалось, 4.
 
 	unsigned char uc = 0x41;
 	cout << "unsigned char: " << uc << " ";
@@ -44,7 +43,6 @@ int main() {
 	cout << s << " ";
 	s = 1;
 	cout << s << endl;
-	//Здесь обещали warning. Не нашел.
 
 	unsigned short us = 0xffff;
 	cout << "unsigned short: " << us << " ";
@@ -195,10 +193,10 @@ int main() {
 	if (r == eSergeant) {
 		i = r;
 		r = RANK(i++);
-		cout << ((r == eSergeant) ? "Still sergeant\n" : "Corporal now/n");
+		cout << ((r == eSergeant) ? "Still sergeant\n" : "Corporal now\n");
 		i = r;
 		r = RANK(++i);
-		cout << ((r == eSergeant) ? "Still sergeant\n" : "Corporal now/n");
+		cout << ((r == eSergeant) ? "Still sergeant\n" : "Corporal now\n");
 		i = r;
 	}
 	RANK rr = eColonel;
@@ -297,19 +295,17 @@ int main() {
 	}
 
 	for (int i = 0; i >= 0; i++) {
-		char ch;
-		cin >> ch;
-		switch (ch) {
+		switch (_getch()) {
 		case 'a': 
 			cout << "\"Ok\"" << endl;
 			break;
 		case 'b':
-			cout << "Bell" << endl;
+			cout << "\a" << endl;
 			break;
 		case 'c':
-			cout << i << endl;
+			cout << dec << i << endl;
 			break;
-		case 'Esc':
+		case 27:
 			cout << "\"to quit use \'q\'\"" << endl;
 			break;
 		case 'q':
@@ -325,6 +321,16 @@ int main() {
 		if ((flags & (1 << i)) == (1 << i)) ans |= (1 << (15 - i));
 	}
 	cout << hex << ans << endl;
+
+	unsigned char byte = 0x26;
+	byte |= (1 << 2);
+	cout << "Byte " << hex << (int)byte << " ";
+	unsigned char plug = 3;
+	byte ^= plug;
+	cout << hex << (int)byte << " ";
+	plug = 240;
+	byte &= plug;
+	cout << hex << (int)byte << endl;
 
 	cout << "Input anything to exit" << endl;
 	string str;
