@@ -31,9 +31,7 @@ void Rect::Move(Vector& v) {
 	ptRB += v;
 }
 
-double Rect::Area() {
-	return ((ptRB.getX() - ptLT.getX()) * (ptRB.getY() - ptLT.getY()));
-}
+double Rect::Area() { return ((ptRB.getX() - ptLT.getX()) * (ptRB.getY() - ptLT.getY())); }
 
 void Rect::Out() {
 	cout << "Rect(" << ptLT.getX() << ", " << ptLT.getY() << ", " << ptRB.getX() << ", " << ptRB.getY() << ")\n";

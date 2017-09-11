@@ -1,19 +1,19 @@
 #pragma once
-#include <vector>
-#include "Vector.h"
+
+class Vector;
 
 class Shape
 {
 public:
 	Shape();
-	~Shape();
+	~Shape() { Count--; }
 	static void PrintCount();
-	virtual void Move(Vector& v);
-	virtual void Out();
-	virtual double Area();
+	static int GetCount();
+	virtual void Move(Vector& v) { return; }
+	virtual void Out() { return; }
+	virtual double Area() { return 0.0; }
+	static Shape* shapes[1000];
 protected:
 	static int Count;
-private:
-	static vector<Shape*> shapes;
 };
 
