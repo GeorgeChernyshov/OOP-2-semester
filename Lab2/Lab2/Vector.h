@@ -9,7 +9,6 @@ public:
 	Vector(double c1, double c2);
 	Vector();
 	Vector(const Vector& v);
-	~Vector();
 	void Move(Vector& v);
 	double Area();
 	double getX();
