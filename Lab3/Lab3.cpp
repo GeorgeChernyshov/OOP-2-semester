@@ -190,12 +190,12 @@ void main()
 
 	// Декларируйте новый вектор указателей на Vector и инициализируйте его 
 	// с помощью второй версии assign
-	//vpNew.assign 
+	vector<Vector*> vpNew;
+	vpNew.assign(vp.begin(), vp.end());
 
-	/*cout << "\n\nNew vector after assign\n";
-	for (i = 0; i < vpNew.size(); i++)
+	cout << "\n\nNew vector after assign\n";
+	for (unsigned i = 0; i < vpNew.size(); i++)
 		vpNew[i]->Out();
-		*/
 
 	// На базе шаблона vector создание двухмерный массив и
 	// заполните его значениями разными способами.
@@ -362,12 +362,17 @@ void main()
 	//буквы
 
 	vector<string> vs;
+	vs.push_back("Aaa");
+	vs.push_back("Aaaa");
+	vs.push_back("Aaa");
+	vs.push_back("Bbb");
+	vs.push_back("aaa");
+	vs.push_back("Aaa");
 
+	cout << count(vs.begin(), vs.end(), "Aaa") << " ";
+	cout << count_if(vs.begin(), vs.end(), [](string& str) {return str[0] == 'A'; }) << endl;
 
-	//5д. С помощью алгоритма count_if() сосчитайте количество строк,
-	//которые совпадают с заданной строкой. Подсказка: смотри тему
-	//объекты-функции
-
+	cout << count_if(vs.begin(), vs.end(), [](string& str) {return str == "Aaa"; }) << endl;
 
 	stop;
 

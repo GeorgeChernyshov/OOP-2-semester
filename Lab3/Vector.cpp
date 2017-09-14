@@ -4,24 +4,16 @@
 Vector::Vector(double c1, double c2)
 {
 	x = c1;   y = c2;
-	shapes[this->GetCount()] = this;
-	Count++;
 }
 
 Vector::Vector()
 {
 	x = y = 0.;
-	shapes[this->GetCount()] = this;
-	Count++;
 }
 
 Vector::Vector(const Vector& v) {
 	*this = v;
-	shapes[this->GetCount()] = this;
-	Count++;
 }
-
-Vector::~Vector() { Count--; }
 
 double Vector::getX() { return x; }
 
@@ -51,10 +43,6 @@ double Vector::operator!() {
 
 bool Vector::operator> (const Vector& v) {
 	return (sqrt(x*x + y*y) > sqrt(v.x*v.x + v.y*v.y)) ? 1 : 0;
-}
-
-bool Vector::operator< (const Vector& v) {
-	return (sqrt(x*x + y*y) < sqrt(v.x*v.x + v.y*v.y)) ? 1 : 0;
 }
 
 bool Vector::operator== (const Vector& v) {
