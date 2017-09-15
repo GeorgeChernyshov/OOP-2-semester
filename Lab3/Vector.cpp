@@ -45,6 +45,10 @@ bool Vector::operator> (const Vector& v) {
 	return (sqrt(x*x + y*y) > sqrt(v.x*v.x + v.y*v.y)) ? 1 : 0;
 }
 
+bool Vector::operator> (const Vector& v) { 
+	return (sqrt(x*x + y*y) > sqrt(v.x*v.x + v.y*v.y)) ? 1 : 0;
+}
+
 bool Vector::operator== (const Vector& v) {
 	return (abs(x - v.x) < DBL_EPSILON && abs(y - v.y) < DBL_EPSILON) ? 1 : 0;
 }
