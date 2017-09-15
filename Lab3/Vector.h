@@ -20,6 +20,7 @@ public:
 	Vector& operator+= (const Vector& v);
 	double operator!();
 	bool operator> (const Vector& v);
+	bool operator< (const Vector& v);
 	bool operator== (const Vector& v);
 	friend const Vector operator* (const Vector& v, const double d);
 	friend const Vector operator* (const double d, const Vector& v);
