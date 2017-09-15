@@ -4,24 +4,16 @@
 Vector::Vector(double c1, double c2)
 {
 	x = c1;   y = c2;
-	shapes[this->GetCount()] = this;
-	Count++;
 }
 
 Vector::Vector()
 {
 	x = y = 0.;
-	shapes[this->GetCount()] = this;
-	Count++;
 }
 
 Vector::Vector(const Vector& v) {
 	*this = v;
-	shapes[this->GetCount()] = this;
-	Count++;
 }
-
-Vector::~Vector() { Count--; }
 
 double Vector::getX() { return x; }
 
@@ -33,7 +25,7 @@ double Vector::Area() { return 0; }
 
 void Vector::Out() { cout << "Vector:  x = " << x << ",  y = " << y << endl; }
 
-Vector& Vector::operator= (const Vector& v)	
+Vector& Vector::operator= (const Vector& v)
 {
 	if (this == &v)
 		return *this;
@@ -54,7 +46,7 @@ bool Vector::operator> (const Vector& v) {
 }
 
 bool Vector::operator< (const Vector& v) {
-	return (sqrt(x*x + y*y) < sqrt(v.x*v.x + v.y*v.y)) ? 1 : 0;
+	return (sqrt(x*x + y*y) > sqrt(v.x*v.x + v.y*v.y)) ? 1 : 0;
 }
 
 bool Vector::operator== (const Vector& v) {
