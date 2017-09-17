@@ -5,15 +5,40 @@
 #include "stdafx.h"
 #include "Vector.h"
 #include "MyString.h"
+#include "Rect.h"
 
-template<typename T, typename F>
-vector<F> getall(T t) {
-	vector<F> v;
-	while (t.size() > 0) v.push_back(t.pop());
+template<typename T>
+void printall(T t) {
+	while (t.size() > 0) {
+		cout << t.top() << " ";
+		t.pop();
+	}
+	cout << endl;
+	return;
+}
+template<typename F>
+void printall(queue<F> t) {
+	while (t.size() > 0) {
+		cout << t.front() << " ";
+		t.pop();
+	}
+	cout << endl;
+	return;
 }
 
-int _tmain(int argc, _TCHAR* argv[])
+bool in_range(const Vector& v) {
+	return (v.getX() > -10 && v.getY() > -10 && v.getX() < 10 && v.getY() < 10);
+}
+
+char low(char& s) {
+	if (s >= 'A' && s <= 'Z') s += 32;
+	return s;
+}
+
+int main()
 {
+	setlocale(LC_CTYPE, ".1251");
+	setlocale(LC_MONETARY, ".1251");
 
 	//Очередь с двумя концами - контейнер deque
 	deque<Vector> dv;
@@ -55,218 +80,221 @@ int _tmain(int argc, _TCHAR* argv[])
 	priority_q.push(10);
 	priority_q.push(11);
 
-	vector<int> v1 = getall(s);
+	printall(s);
+	printall(q);
+	printall(priority_q);
 
+	vector<int> v = {1, 2, 3, 4, 5, 6};
+	stack<int, vector<int>> s1(vector<int>(v.rbegin(), v.rend()));
 
-	////////////////////////////////////////////////////////////////////////////////////
-	//stack
-
-	//Создайте стек таким образом, чтобы
-	//а) элементы стека стали копиями элементов вектора
-	//б) при выводе значений как вектора, так и стека порядок значений был одинаковым 
-
-
-
-	//Сравнение и копирование стеков
-	//а) создайте стек и любым способом задайте значения элементов
-	//б) создайте новый стек таким образом, чтобы он стал копией первого
-	//в) сравните стеки на равенство
-	//г) модифицируйте любой из стеком любым образом (push, pop, top)
 	//д) проверьте, какой из стеков больше (подумайте, какой смысл вкладывается в такое сравнение)
 	{
-
-
+		stack<int> s2;
+		s2.push(9);
+		s2.push(10);
+		stack<int> s3 = s2;
+		if (s3 == s2) cout << "Stacks are equal\n";
+		s3.push(1);
+		s2.push(2);
+		if (s3 < s2) cout << "s2 is bigger\n";
 		stop
 
 	}
 
-
-	////////////////////////////////////////////////////////////////////////////////////
-	//queue
-
-	//Создайте очередь, которая содержит указатели на объекты типа Point,
-	//при этом явно задайте базовый контейнер.
-	//Измените значения первого и последнего элементов посредством front() и back()
 	//Подумайте, что требуется сделать при уничтожении такой очереди?
 	{
 
-
-
-
+		queue<Vector*> q1;
+		for (int i = 0; i < 3; i++) q1.push(new Vector(1, 2));
+		delete q1.front();
+		q1.front() = new Vector(-1, -1);
+		delete q1.back();
+		q1.back() = new Vector(-5, -7);
+		cout << q1.size() << endl;
 
 
 	}
-	////////////////////////////////////////////////////////////////////////////////////
-	//priority_queue
-	//а) создайте очередь с приоритетами, которая будет хранить адреса строковых литералов - const char*
-	//б) проинициализируйте очередь при создании с помощью вспомогательного массива с элементами const char*
+
 	//в) проверьте "упорядоченность" значений (с помощью pop() ) - если они оказываются не упорядоченными, подумайте:
 	//		что сравнивается при вставке?
 
-
 	{
-
-
+		const char* cc1 = "Abacabad";
+		const char* cc2 = "AbAcabad";
+		const char* cc3 = "Abac";
+		const char* cc4 = "Bbac";
+		const char* arrcc[] = { cc1, cc2, cc3, cc4 };
+		priority_queue<const char*> pqcc(arrcc, arrcc + 4);
+		printall(pqcc);
 		stop
 	}
 
+	set<Vector> sV;
+	sV.insert(Vector(1, 1));
+	sV.insert(Vector(2, -0.02));
+	sV.insert(Vector(0, 1));
+	sV.insert(Vector(1.3, 0));
+	for (set<Vector>::iterator it = sV.begin(); it != sV.end(); it++) {
+		it->Out();
+	}
 
-	////////////////////////////////////////////////////////////////////////////////////
-	//set
-	//a) создайте множество с элементами типа Point - подумайте, что необходимо определить
-	//		в классе Point (и каким образом)
-	//б) распечатайте значения элементов с помощью шаблона, реализованного в предыдущей лаб. работе
-	//в) попробуйте изменить любое значение...
-	//г) Создайте два множества, которые будут содержать одинаковые значения
-	//		типа int, но занесенные в разном порядке
-	//д) Вставьте в любое множество диапазон элементов из любого другого
-	//	контейнера, например, элементов массива	(что происходит, если в массиве имеются дубли?)
+	set<int> si1 = { 1, 2, 3, 4 };
+	set<int> si2 = { 4, 5, 6, -4 };
+	si2.insert(si1.begin(), si1.end());
+	for (set<int>::iterator it = si2.begin(); it != si2.end(); it++) {
+		cout << *it << " ";
+	}
+	cout << endl;
 
+	multiset<Vector> msV;
+	msV.insert(Vector(1, 1));
+	msV.insert(Vector(12, -0.02));
+	msV.insert(Vector(1, 1));
+	msV.insert(Vector(1, 1));
+	for (multiset<Vector>::iterator it = msV.begin(); it != msV.end(); it++) {
+		it->Out();
+	}
 
+	multiset<int> msi1 = { 1, 2, 3, 4 };
+	multiset<int> msi2 = { 4, 5, 6, -4 };
+	msi2.insert(msi1.begin(), msi1.end());
+	for (multiset<int>::iterator it = msi2.begin(); it != msi2.end(); it++) {
+		cout << *it << " ";
+	}
+	cout << endl;
 
-
-	////////////////////////////////////////////////////////////////////////////////////
-	//multiset
-
-
-
-
-	////////////////////////////////////////////////////////////////////////////////////
-	//map	
-	//а) создайте map, который хранит пары "фамилия, зарплата" - pair<const char*, int>,
-	//	при этом строки задаются строковыми литералами
-	//б) заполните контейнер значениями посредством operator[] и insert()
-	//в) распечатайте содержимое
-
-	//е) замените один из КЛЮЧЕЙ на новый (была "Иванова", вышла замуж => стала "Петрова")
-
+	map<const char*, int> mci;
+	mci.insert(pair<const char*, int>("Ivanova", 10));
+	mci.insert(pair<const char*, int>("Novoselova", 102));
+	mci["Krasikov"] = 25;
+	for (map<const char*, int>::iterator it = mci.begin(); it != mci.end(); it++) {
+		cout << it->first << " " << it->second << endl;
+	}
+	map<const char*, int>::iterator itf = mci.find("Ivanova");
+	mci.erase(itf);
+	mci.insert(pair<const char*, int>("Petrova", 10));
+	cout << endl;
+	for (map<const char*, int>::iterator it = mci.begin(); it != mci.end(); it++) {
+		cout << it->first << " " << it->second << endl;
+	}
 	stop
 
+		multimap<string, string> mm;
+		mm.insert(pair<string, string>("sweet", "сладкий"));
+		mm.insert(pair<string, string>("sweet", "дорогой(о человеке)"));
+		mm.insert(pair<string, string>("strange", "чужой"));
+		mm.insert(pair<string, string>("strange", "странный"));
+		mm.insert(pair<string, string>("hello", "привет"));
+		cout << endl;
+		for (multimap<string, string>::iterator it = mm.begin(); it != mm.end(); it++) {
+			cout << it->first << " " << it->second << endl;
+		}
+		multimap<string, string>::iterator mmit1 = mm.lower_bound("sweet");
+		multimap<string, string>::iterator mmit2 = mm.upper_bound("sweet");
+		cout << endl;
+		for (multimap<string, string>::iterator it = mmit1; it != mmit2; it++) {
+			cout << it->first << " " << it->second << endl;
+		}
 
+		vector<Vector> vEctor;
+		for (set<Vector>::reverse_iterator it = sV.rbegin(); it != sV.rend(); it++) {
+			vEctor.push_back(*it);
+		}
 
-		////////////////////////////////////////////////////////////////////////////////////
-		//multimap
-		//а) создайте "англо-русский" словарь, где одному и тому же ключу будут соответствовать
-		//		несколько русских значений - pair<string,string>, например: strange: чужой, странный...
-		//б) Заполните словарь парами с помощью метода insert или проинициализируйте с помощью 
-		//		вспомогательного массива пара (пары можно конструировать или создавать с помощью шаблона make_pair)
-		//в) Выведите все содержимое словаря на экран
-		//г) Выведите на экран только варианты "переводов" для заданного ключа. Подсказка: для нахождения диапазона
-		//		итераторов можно использовать методы lower_bound() и upper_bound()
+		for (unsigned int i = 0; i < vEctor.size(); i++) {
+			vEctor[i].Out();
+		}
 
+		cout << endl;
+		ostream_iterator<Vector> out_it_V(cout);
+		std::copy(vEctor.begin(), vEctor.end(), out_it_V);
+		cout << endl;
+		ostream_iterator<Vector> out_it_S(cout);
+		std::copy(sV.begin(), sV.end(), out_it_S);
 
-		///////////////////////////////////////////////////////////////////
+		back_inserter(vEctor) = Vector(500, 500);
+		front_inserter(dv) = Vector(500, 500);
+		inserter(sV, sV.end()) = Vector(500, 500);
 
-		//Итераторы
-
-		//Реверсивные итераторы. Сформируйте set<Point>. Подумайте, что
-		//нужно перегрузить в классе Point. Создайте вектор, элементы которого 
-		//являются копиями элементов set, но упорядочены по убыванию
-
-
-		//Потоковые итераторы. С помощью ostream_iterator выведите содержимое
-		//vector и set из предыдущего задания на экран.
-
-
-		//Итераторы вставки. С помощью возвращаемых функциями:
-		//back_inserter()
-		//front_inserter()
-		//inserter()
-		//итераторов вставки добавьте элементы в любой из созданных контейнеров. Подумайте:
-		//какие из итераторов вставки можно использовать с каждым контейнером.
-
-
-
-		///////////////////////////////////////////////////////////////////
-
-		//Обобщенные алгоритмы (заголовочный файл <algorithm>). Предикаты.
-
-		// алгоритм for_each() - вызов заданной функции для каждого элемента любой последовательности
-		//(массив, vector, list...)
-		//С помощью алгоритма for_each в любой последовательности с элементами любого типа
-		//распечатайте значения элементов
-		//Подсказка : неплохо вызываемую функцию определить как шаблон
-
-
+		for_each(vEctor.begin(), vEctor.end(), [](Vector & v) {cout << v; });
 
 		stop
 
-		//С помощью алгоритма for_each в любой последовательности с элементами типа Point
-		//измените "координаты" на указанное значение (такой предикат тоже стоит реализовать 
-		//как шаблон) и выведите результат с помощью предыдущего предиката
+		for_each(vEctor.begin(), vEctor.end(), [](Vector & v) {v.setX(102.5); });
+		cout << endl;
+		for_each(vEctor.begin(), vEctor.end(), [](Vector & v) {cout << v; });
+
+		cout << endl;
+		for (multiset<Vector>::iterator it = msV.begin(); it != msV.end(); it = find(it, msV.end(), Vector(1, 1))) {
+			it++->Out();
+		}
+
+		sort(vEctor.begin(), vEctor.end());
+		cout << endl;
+		for_each(vEctor.begin(), vEctor.end(), [](Vector & v) {cout << v; });
+
+		cout << endl;
+		multiset<Vector>::iterator found = find_if(msV.begin(), msV.end(), in_range);
+		found->Out();
+
+		vector<Rect> vr;
+		vr.push_back(Rect(0, 0, 6, 8));
+		vr.push_back(Rect(3, 3, 5, 5));
+		vr.push_back(Rect(-6, -6, -4, -4));
+		vr.push_back(Rect(1, 1, 2, 3));
+		sort(vr.begin(), vr.end());
+		cout << endl;
+		for (unsigned int i = 0; i < vr.size(); i++) {
+			cout << vr[i];
+		}
 
 
 
 
-		//С помощью алгоритма find() найдите в любой последовательности элементов Point
-		//все итераторы на элемент Point с указанным значением.
+	{
+		list<string> ls;
+		ls.push_back("HELLO");
+		ls.push_back(", my");
+		ls.push_back("nAmE Is");
+		ls.push_back("George");
+
+		set<string> ss;
 
 
+		for (list<string>::iterator it = ls.begin(); it != ls.end(); it++) {
+			string s;
+			transform(it->begin(), it->end(), back_inserter(s), low);
+			ss.insert(s);
+		}
 
+		cout << endl;
+		for (set<string>::iterator it = ss.begin(); it != ss.end(); it++) {
 
-
-		//С помощью алгоритма sort() отсортируйте любую последовательность элементов Point. 
-		////По умолчанию алгоритм сортирует последовательность по возрастанию.
-		//Что должно быть определено в классе Point?
-		// Замечание: обобщенный алгоритм sort не работает со списком, так как
-		//это было бы не эффективно => для списка сортировка реализована методом класса!!!
-
-
-
-
-		//Создайте глобальную функцию вида: bool Pred1_1(const Point& ), которая будет вызываться
-		//алгоритмом find_if(), передавая в качестве параметра очередной элемент последовательности.
-		//С помощью алгоритма find_if() найдите в любой последовательности элементов Point
-		//итератор на элемент Point, удовлетворяющий условию: координаты x и y лежат в промежутке
-		//[-n, +m].
-
-
-
-		//С помощью алгоритма sort() отсортируйте любую последовательность элементов Rect,
-		//располагая прямоугольники по удалению центра от начала координат.
-
-
-
-
-
-
-
-	{//transform
-		//Напишите функцию, которая с помощью алгоритма transform переводит 
-		//содержимое объекта string в нижний регистр.
-		//Подсказка: класс string - это "почти" контейнер, поэтому для него
-		// определены методы begin() и end()
-
-
-		//Заполните list объектами string. С помощью алгоритма transform сформируте
-		//значения "пустого" set, конвертируя строки в нижний регистр
-
-
-
+			cout << *it << " ";
+		}
+		cout << endl;
 
 		stop
 	}
-	{// map
+	{
 
-			//Сформируйте любым способом вектор с элементами типа string.
-			//Создайте (и распечатайте для проверки) map<string, int>, который будет
-			//содержать упорядоченные по алфавиту строки и
-			//количество повторений каждой строки в векторе
+		vector<string> last = {"Abac", "Abad", "Abac", "Abab"};
+		map<string, int> mmm;
+		for (unsigned int i = 0; i < last.size(); i++) {
+			mmm[last[i]]++;
+		}
 
-
-
-
-
-
-
+		for (map<string, int>::iterator it = mmm.begin(); it != mmm.end(); it++) {
+			cout << it->first << " " << it->second << endl;
+		}
 
 	}
 
 
 
-		cout << "Print anything to exit\n";
-		string str;
-		cin >> str;
-		return 0;
+	cout << "Print anything to exit\n";
+	string str;
+	cin >> str;
+	return 0;
 }
 

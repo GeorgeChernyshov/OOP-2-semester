@@ -17,6 +17,9 @@
 #include <deque>
 #include <algorithm>
 #include <string>
+#include <stack>
+#include <queue>
+#include <iterator>
 
 using namespace std;
 #define	  stop __asm nop

@@ -4,28 +4,49 @@
 Vector::Vector(double c1, double c2)
 {
 	x = c1;   y = c2;
+	shapes[this->GetCount()] = this;
+	Count++;
 }
 
 Vector::Vector()
 {
 	x = y = 0.;
+	shapes[this->GetCount()] = this;
+	Count++;
 }
 
 Vector::Vector(const Vector& v) {
 	*this = v;
+	shapes[this->GetCount()] = this;
+	Count++;
 }
 
-double Vector::getX() { return x; }
+Vector::~Vector() { Count--; }
 
-double Vector::getY() { return y; }
+double Vector::getX() const { return x; }
+
+double Vector::getY() const { return y; }
+
+void Vector::setX(double nx) {
+	x = nx;
+	return;
+}
+
+void Vector::setY(double ny) {
+	y = ny;
+	return;
+}
 
 void Vector::Move(Vector& v) { *this += v; }
 
 double Vector::Area() { return 0; }
 
-void Vector::Out() { cout << "Vector:  x = " << x << ",  y = " << y << endl; }
+ostream& Vector::Out(ostream& os) const {
+	os << "Vector:  x = " << x << ",  y = " << y << endl; 
+	return os;
+}
 
-Vector& Vector::operator= (const Vector& v)
+Vector& Vector::operator= (const Vector& v)	
 {
 	if (this == &v)
 		return *this;
@@ -34,7 +55,7 @@ Vector& Vector::operator= (const Vector& v)
 	return *this;
 }
 
-const Vector Vector::operator+ (const Vector& v) { return Vector(x + v.x, y + v.y); }
+const Vector operator+ (const Vector& left, const Vector& right) { return Vector(left.getX() + right.getX(), left.getY() + right.getY()); }
 
 double Vector::operator!() {
 	double length = sqrt(x*x + y*y);
@@ -42,15 +63,15 @@ double Vector::operator!() {
 }
 
 bool Vector::operator> (const Vector& v) {
-	return (sqrt(x*x + y*y) > sqrt(v.x*v.x + v.y*v.y)) ? 1 : 0;
+	return (sqrt(x*x + y*y) > sqrt(v.x*v.x + v.y*v.y));
 }
 
-bool Vector::operator< (const Vector& v) {
-	return (sqrt(x*x + y*y) > sqrt(v.x*v.x + v.y*v.y)) ? 1 : 0;
+const bool operator< (const Vector& left, const Vector& right) {
+	return (sqrt(left.x*left.x + left.y*left.y) < sqrt(right.x*right.x + right.y*right.y));
 }
 
-bool Vector::operator== (const Vector& v) {
-	return (abs(x - v.x) < DBL_EPSILON && abs(y - v.y) < DBL_EPSILON) ? 1 : 0;
+bool operator== (const Vector& left, const Vector& right) {
+	return (abs(left.x - right.x) < DBL_EPSILON && abs(left.y - right.y) < DBL_EPSILON) ? 1 : 0;
 }
 
 const Vector operator* (const Vector& v, const double d) {
@@ -66,4 +87,9 @@ const double operator* (const Vector& left, const Vector& right) {
 Vector& Vector::operator+= (const Vector& v) {
 	*this = *this + v;
 	return *this;
+}
+
+ostream& operator<<(ostream& os, const Vector& v) {
+	v.Out(os);
+	return os;
 }
