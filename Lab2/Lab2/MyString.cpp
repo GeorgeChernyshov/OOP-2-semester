@@ -26,6 +26,7 @@ char* MyString::GetString() { return m_pStr; }
 int MyString::GetLength() { return strlen(m_pStr) + 1; }
 
 MyString& MyString::operator=(const MyString& str) {
+	if (this == &str) return *this;
 	this->Copy(str.m_pStr);
 	return *this;
 }
