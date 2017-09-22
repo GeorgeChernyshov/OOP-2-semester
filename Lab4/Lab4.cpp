@@ -35,6 +35,23 @@ char low(char& s) {
 	return s;
 }
 
+class MyComp {
+public:
+	bool operator()(const char* left, const char* right) {
+		int i = 0;
+		while (1) {
+			char a = left[i];
+			char b = right[i];
+			if (a == '\0') return 1;
+			if (b == '\0') return 0;
+			if (a > b) return 0;
+			if (a < b) return 1;
+			i++;
+		}
+		return 0;
+	}
+};
+
 int main()
 {
 	setlocale(LC_CTYPE, ".1251");
@@ -124,7 +141,7 @@ int main()
 		const char* cc3 = "Abac";
 		const char* cc4 = "Bbac";
 		const char* arrcc[] = { cc1, cc2, cc3, cc4 };
-		priority_queue<const char*> pqcc(arrcc, arrcc + 4);
+		priority_queue<const char*, vector<const char*>, MyComp> pqcc(arrcc, arrcc + 4);
 		printall(pqcc);
 		stop
 	}
